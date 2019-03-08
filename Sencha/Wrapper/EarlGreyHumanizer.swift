@@ -194,11 +194,14 @@ public protocol EarlGreyHumanizer {
 public extension EarlGreyHumanizer {
     
     func select(_ matcher: Matcher, file: StaticString = #file, line: UInt = #line) -> GREYInteraction {
-    
+
+        let halfScreenSize = UIScreen.main.bounds.height/2
+
         return EarlGrey.selectElement(
-            with: matcher.greyMatcher(),
-            file: file,
-            line: line
+            with: matcher.greyMatcher()
+        ).usingSearch(
+            grey_scrollInDirection(.down, halfScreenSize),
+            onElementWith: grey_kindOfClass(UIScrollView.self)
         )
     }
 }
